@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collapsible List with Filter</title>
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+  <script src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+</head>
+<body>
+
+<div data-role="page" id="page">
+  <div data-role="content">
+    <h1>Collapsible List with Filter</h1>
+    <div data-role="collapsible-set" data-filter="true">
+      <div data-role="listview" data-inset="true" data-filter="true" id="itemList">
+        <!-- Items will be added here dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).on("pagecreate", "#page", function () {
+      // Fixed file path or URL (modify this accordingly)
+      var filePath = "songs.txt";
+
+      // Function to read file content
+      function readFile(filePath) {
+        $.get(filePath, function (data) {
+          var items = data.split('\n').filter(Boolean); // Split lines and remove empty entries
+          
+          // Append items to the listview
+          var listview = $("#itemList");
+          items.forEach(function (item) {
+            listview.append('<div data-role="collapsible"><h1>' + item + '</h1></div>');
+          });
+
+          // Refresh the listview to enhance its styles
+          listview.enhanceWithin().listview("refresh");
+        });
+      }
+
+      // Read file automatically
+      readFile(filePath);
+    });
+  </script>
+
+</div>
+
+</body>
+</html>
